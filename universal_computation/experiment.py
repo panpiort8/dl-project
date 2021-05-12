@@ -205,36 +205,9 @@ def experiment(
 def run_experiment(
         exp_name,
         experiment_params,
+        experiment_args
 ):
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--num_iters', '-it', type=int, default=10000,
-                        help='Number of iterations for trainer')
-    parser.add_argument('--steps_per_iter', type=int, default=100,
-                        help='Number of gradient steps per iteration')
-    parser.add_argument('--test_steps_per_iter', type=int, default=25,
-                        help='Number of test gradient steps per iteration')
-
-    parser.add_argument('--log_to_wandb', '-w', type=bool, default=False,
-                        help='Whether or not to log to Weights and Biases')
-    parser.add_argument('--note', '-n', type=str, default='',
-                        help='An optional note to be logged to W&B')
-    parser.add_argument('--wandb_project', type=str, default='my_project',
-                        help='Project name for W&B')
-    parser.add_argument('--include_date', type=bool, default=True,
-                        help='Whether to include date in run name')
-
-    parser.add_argument('--save_models', '-s', type=bool, default=False,
-                        help='Whether or not to save the model files locally')
-    parser.add_argument('--save_models_every', '-int', type=int, default=25,
-                        help='How often to save models locally')
-
-    parser.add_argument('--device', '-d', type=str, default='cuda',
-                        help='Which device for Pytorch to use')
-    parser.add_argument('--gpu_batch_size', '-gbs', type=int, default=16,
-                        help='Max batch size to put on GPU (used for gradient accumulation)')
-
-    exp_args = parser.parse_args(sys.argv[1:])
+    exp_args = experiment_args
 
     if exp_args.include_date:
         timestamp = datetime.now().strftime('%m-%d')
