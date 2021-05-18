@@ -38,7 +38,5 @@ class ListopsDataset(Dataset):
 
         x = x.to(device=self.device)
         y = y.to(device=self.device)
-
         self._ind += 1
-
         return x, y
