@@ -3,15 +3,9 @@ from typing import Tuple, List, Optional
 
 import torch
 import transformers
-
-try:
-    from huggingmolecules.configuration.configuration_api import PretrainedConfigMixin
-    from huggingmolecules.featurization.featurization_api import PretrainedFeaturizerMixin, RecursiveToDeviceMixin
-    from huggingmolecules.featurization.featurization_common_utils import stack_y_list
-except ImportError:
-    raise ImportError('Please install huggingmolecules from https://github.com/gmum/huggingmolecules. '
-                      'Due to python versions conflict, you must remove a `Protocol` occurrence '
-                      'from the huggingmolecules src/huggingmolecules/featurization/featurization_api.py file')
+from huggingmolecules.configuration.configuration_api import PretrainedConfigMixin
+from huggingmolecules.featurization.featurization_api import PretrainedFeaturizerMixin, RecursiveToDeviceMixin
+from huggingmolecules.featurization.featurization_common_utils import stack_y_list
 
 
 @dataclass
