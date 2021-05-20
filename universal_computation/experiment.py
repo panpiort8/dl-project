@@ -186,6 +186,8 @@ def experiment(
             **exp_args,
             **kwargs,
         )
+        del config['__dict__']
+        del config['__weakref__']
         wandb.init(
             name=f'{exp_name}-{short_name}',
             group=f'{exp_name}-{task}',
