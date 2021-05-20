@@ -26,10 +26,10 @@ body.
 
 ### Baselines
 
-Dataset | Accuracy
-:---: | :---:
-Cyp3A4 Inhibition | ...
-Speech Command | ...
+Dataset | Metric Name | Result
+:---: | :---: | :---:
+Cyp3A4 Inhibition | Accuracy | ...
+Speech Command | Accuracy | ...
 
 #### Cyp3A4 Inhibition
 
@@ -38,3 +38,35 @@ The baseline for this dataset is Molecule Attention Transformer, fine-tuned with
 #### Speech Commands
 
 The baseline for this dataset is Audio Spectrogram Transformer, more details can be found in [paper](https://arxiv.org/abs/2104.01778).
+
+## Question 1
+Can pretrained language models transfer to different modalities?
+
+### Empirical results
+FPT trained with default parameters.
+
+// TODO
+
+Dataset | Metric Name | Result
+:---: | :---: | :---:
+Cyp3A4 Inhibition | Accuracy | ...
+
+### Conclusions
+
+// TODO
+
+## Question 2
+What is the importance of the pretraining modality?
+
+### Empirical results
+FPT trained with `pretrained=False`. 
+
+// TODO
+
+Dataset | Metric Name | Result
+:---: | :---: | :---:
+Cyp3A4 Inhibition | Accuracy | ...
+
+### Conclusions
+
+// TODO
