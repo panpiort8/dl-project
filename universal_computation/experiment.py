@@ -1,11 +1,9 @@
+import random
+from datetime import datetime
+
 import numpy as np
 import torch
 import wandb
-
-import argparse
-from datetime import datetime
-import random
-import sys
 
 from universal_computation.fpt import FPT
 from universal_computation.trainer import Trainer
@@ -16,7 +14,6 @@ def experiment(
         exp_args,
         **kwargs
 ):
-
     """
     Preliminary checks
     """
@@ -41,7 +38,7 @@ def experiment(
         from universal_computation.datasets.bit_memory import BitMemoryDataset
         dataset = BitMemoryDataset(n=kwargs['n'], num_patterns=kwargs['num_patterns'], device=device)
         input_dim = kwargs['n'] if patch_size is None else patch_size
-        output_dim = 2*kwargs['n'] if patch_size is None else 2 * patch_size
+        output_dim = 2 * kwargs['n'] if patch_size is None else 2 * patch_size
         use_embeddings = False
         experiment_type = 'classification'
 
@@ -63,14 +60,14 @@ def experiment(
     elif task == 'cifar10':
         from universal_computation.datasets.cifar10 import CIFAR10Dataset
         dataset = CIFAR10Dataset(batch_size=batch_size, patch_size=patch_size, device=device)
-        input_dim, output_dim = 3 * patch_size**2, 10
+        input_dim, output_dim = 3 * patch_size ** 2, 10
         use_embeddings = False
         experiment_type = 'classification'
 
     elif task == 'cifar10-gray':
         from universal_computation.datasets.cifar10_gray import CIFAR10GrayDataset
         dataset = CIFAR10GrayDataset(batch_size=batch_size, patch_size=patch_size, device=device)
-        input_dim, output_dim = patch_size**2, 10
+        input_dim, output_dim = patch_size ** 2, 10
         use_embeddings = False
         experiment_type = 'classification'
 
@@ -80,6 +77,14 @@ def experiment(
         input_dim, output_dim = 15, 10
         use_embeddings = True
         experiment_type = 'classification'
+
+    elif task == 'cyp3a4':
+        from universal_computation.datasets.cyp3a4 import Cyp3A4Dataset
+        dataset = Cyp3A4Dataset(batch_size=batch_size, device=device)
+        input_dim, output_dim = 1000, 2
+        use_embeddings = True
+        experiment_type = 'classification'
+
     else:
         raise NotImplementedError('dataset not implemented')
 
@@ -187,19 +192,19 @@ def experiment(
         trainer.train_epoch()
 
         print('=' * 57)
-        print(f'| Iteration {" " * 15} | {t+1:25} |')
+        print(f'| Iteration {" " * 15} | {t + 1:25} |')
         for k, v in trainer.diagnostics.items():
             print(f'| {k:25} | {v:25} |')
 
         if log_to_wandb:
             wandb.log(trainer.diagnostics)
 
-        if save_models and ((t+1) % exp_args['save_models_every'] == 0 or
-                            (t+1) == exp_args['num_iters']):
+        if save_models and ((t + 1) % exp_args['save_models_every'] == 0 or
+                            (t + 1) == exp_args['num_iters']):
             with open(f'models/{run_name}.pt', 'wb') as f:
                 state_dict = dict(model=model.state_dict(), optim=trainer.optim.state_dict())
                 torch.save(state_dict, f)
-            print(f'Saved model at {t+1} iters: {run_name}')
+            print(f'Saved model at {t + 1} iters: {run_name}')
 
 
 def run_experiment(
