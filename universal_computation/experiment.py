@@ -85,6 +85,12 @@ def experiment(
         use_embeddings = True
         experiment_type = 'classification'
 
+    elif task == 'speech-commands':
+        from universal_computation.datasets.speech_commands import SpeechCommandsDataset
+        dataset = SpeechCommandsDataset(batch_size=batch_size, sample_rate=8000, device=device)
+        input_dim, output_dim = 8000, 35
+        use_embeddings = False
+        experiment_type = 'classification'
     else:
         raise NotImplementedError('dataset not implemented')
 
