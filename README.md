@@ -10,6 +10,13 @@ Open our pipeline in [Colab](https://colab.research.google.com/github/panpiort8/
 
 ### Datasets
 
+#### Speech Commands
+
+Speech Commands dataset contains short audio clips of a fixed number of command words such as “stop”,
+“go”, “up”, “down”, etc spoken by many speakers. Google released two versions of the dataset with the first version 
+containing 65k samples over 30 classes, and the second containing 110k samples over 35 classes. 
+In our project, we used the second version which is available in the [torchaudio](https://pytorch.org/audio/stable/index.html) library.
+
 #### Cyp3A4 Inhibition
 
 The CYP P450 genes are involved in the formation and breakdown (metabolism) of various molecules and chemicals within
@@ -22,7 +29,12 @@ body.
 Dataset | Accuracy
 :---: | :---:
 Cyp3A4 Inhibition | ...
+Speech Command | ...
 
 #### Cyp3A4 Inhibition
 
 The baseline for this dataset is Molecule Attention Transformer, fine-tuned with [huggingmolecules](https://github.com/gmum/huggingmolecules) package (on the same data split, with a default hps setting).
+
+#### Speech Commands
+
+The baseline for this dataset is Audio Spectrogram Transformer, more details can be found in [paper](https://arxiv.org/abs/2104.01778).
