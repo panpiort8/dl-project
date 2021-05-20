@@ -190,7 +190,8 @@ def experiment(
         wandb.init(
             name=f'{exp_name}-{short_name}',
             group=f'{exp_name}-{task}',
-            project=exp_args['wandb_project'], entity=exp_args['wandb_entity'],
+            project=exp_args['wandb_project'],
+            entity=exp_args['wandb_entity'],
             config=config,
         )
         wandb.watch(model)
