@@ -174,7 +174,6 @@ def experiment(
 
     log_to_wandb = exp_args['log_to_wandb']
     save_models = exp_args['save_models']
-    wandb_project = exp_args['wandb_project']
 
     short_name = str(random.randint(int(1e5), int(1e6) - 1))
     run_name = f'{exp_name}-{task}-{short_name}'
@@ -191,7 +190,7 @@ def experiment(
         wandb.init(
             name=f'{exp_name}-{short_name}',
             group=f'{exp_name}-{task}',
-            project=wandb_project,
+            project=exp_args['wandb_project'], entity=exp_args['wandb_entity'],
             config=config,
         )
         wandb.watch(model)
