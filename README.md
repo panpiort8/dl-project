@@ -158,3 +158,90 @@ Speech Command | Accuracy | ... | ...
 
 // TODO
 
+## Question 3
+
+Does the transformer architecture provide inductive bias that transfers well to various modalities?
+
+### Methodology
+
+1. Train FPT on all datasets without the pretraining, but with freezing:
+
+```python
+experiments_params = dict(
+    # ...
+    model_name='gpt2',
+    pretrained=False,
+
+    freeze_trans=True,
+    freeze_in=False,
+    freeze_pos=False,
+    freeze_ln=False,
+    freeze_attn=True,
+    freeze_ff=True,
+    freeze_out=False,
+    # ...
+)
+```
+
+2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1)
+   and [question 2](#Question 2). Are they somehow comparable?
+
+### Empirical results
+
+//TODO Result = average of n runs
+
+Dataset | Metric Name | Result | #runs
+:---: | :---: | :---: | :---:
+MNIST | Accuracy | ... | \>=3
+CIFAR 10 | Accuracy | ... | \>=3
+MNIST Digits Addition | ? | ... | \>=3
+Cyp3A4 Inhibition | Accuracy | ... | \>=3
+Speech Command | Accuracy | ... | \>=3
+
+### Conclusions
+
+// TODO
+
+## Question 4
+
+Can pretrained visual models transfer to different modalities?
+
+### Methodology
+
+0. Implement using ViT as the pretrained transformer.
+1. Train FPT on all datasets with default parameters set, but with ViT as pretrained transformer:
+
+```python
+experiments_params = dict(
+    # ...
+    model_name='vit',
+    pretrained=True,
+
+    freeze_trans=True,
+    freeze_in=False,
+    freeze_pos=False,
+    freeze_ln=False,
+    freeze_attn=True,
+    freeze_ff=True,
+    freeze_out=False,
+    # ...
+)
+```
+
+2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1). Are they somehow comparable?
+
+### Empirical results
+
+//TODO Result = average of n runs
+
+Dataset | Metric Name | Result | #runs
+:---: | :---: | :---: | :---:
+MNIST | Accuracy | ... | ...
+CIFAR 10 | Accuracy | ... | ...
+MNIST Digits Addition | ? | ... | ...
+Cyp3A4 Inhibition | Accuracy | ... | ...
+Speech Command | Accuracy | ... | ...
+
+### Conclusions
+
+// TODO
