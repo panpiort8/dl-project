@@ -9,4 +9,4 @@ MANIFEST
 /misc
 /wandb
 /models
-/.ipynb_checkpoints
+**/.ipynb_checkpoints

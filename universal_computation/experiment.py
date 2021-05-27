@@ -8,8 +8,8 @@ import wandb
 from universal_computation.fpt import FPT
 from universal_computation.trainer import Trainer
 
-def count_weights(model):
-    model_parameters = filter(lambda p: p.requires_grad, model.parameters())
+def count_weights(model, all=False):
+    model_parameters = filter(lambda p: all or p.requires_grad, model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])
     return params
 
@@ -221,12 +221,14 @@ def experiment(
             **exp_args,
             **kwargs,
         )
+        config['model_weights'] = count_weights(model)
+        config['model_all_weights'] = count_weights(model, all=True)
+        
         if '__dict__' in config:
             del config['__dict__']
         if '__weakref__' in config:
             del config['__weakref__']
-        print(config)
-        print('*'*100)
+        
         wandb.init(
             name=f'{exp_name}-{short_name}',
             group=f'{exp_name}-{task}-n-{kwargs["n"]}',
@@ -234,13 +236,12 @@ def experiment(
             entity='dl-project2',
             config=config,
         )
-        print('*'*100)
+
         wandb.watch(model)
 
     best_test_loss = 1e10
     best_test_iter = -1
-    print(model)
-    wandb.log({"model_weights": count_weights(model)})
+    
     for t in range(exp_args['num_iters']):
         trainer.train_epoch()
 
