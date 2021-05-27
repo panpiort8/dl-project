@@ -4,41 +4,60 @@ import torch
 import torch.nn as nn
 import sys
 import wandb
+import json
 
 from universal_computation.experiment import run_experiment
-
-####### Load configuration
-import json
-with open(sys.argv[1]) as input:
-    params = json.load(input)
-
-experiment_name = params['name']
-
-experiment_params = params['params']
-
-from types import SimpleNamespace
-
-Args = SimpleNamespace(**params['args'])
+from argparse import ArgumentParser
 
 
-####### Run experiment
+if __name__ == "__main__":
+    parser = ArgumentParser()
+    
+    parser.add_argument('--tag', action='append')
+    parser.add_argument('--task-name', type=str, required=False)
+    parser.add_argument('--model', type=str, required=False)
+    parser.add_argument('config')
+    
+    args = parser.parse_args()
+    print(args)
+    
+    ####### Load configuration
+    with open(args.config) as input:
+        params = json.load(input)
 
-trainer = run_experiment(experiment_name, experiment_params, Args)
+    experiment_name = params['name']
 
-final = trainer.test_eval(10000, None)
+    experiment_params = params['params']
 
-wandb.log({
-    'Final Loss': final[0],
-    'Final Accuracy': final[1],
-    'Final Test Size': final[2]
-})
+    if args.task_name:
+        *prefix, suffix = args.task_name.split('-')
+        if suffix.isdigit():
+            experiment_params['task'] = '-'.join(prefix)
+            experiment_params['n'] = int(suffix)
+        else:
+            experiment_params['task'] = args.task_name
+   
+    if args.model:
+        experiment_params['model_name'] = args.model
 
+    from types import SimpleNamespace
 
-####### Finalize
+    Args = SimpleNamespace(**params['args'])
+    
+    ####### Run experiment
+    trainer = run_experiment(experiment_name, experiment_params, Args)
 
+    final = trainer.test_eval(10000, None)
 
-wandb.run.tags += ("completed",)
-if len(sys.argv) > 2:
-    wandb.run.tags += (sys.argv[2],)
+    wandb.log({
+        'Final Loss': final[0],
+        'Final Accuracy': final[1],
+        'Final Test Size': final[2]
+    })
 
-wandb.run.finish()
+    ####### Finalize
+    wandb.run.tags += ("completed",)
+    if args.tag:
+        wandb.run.tags += tuple(args.tag)
+
+    wandb.run.finish()
