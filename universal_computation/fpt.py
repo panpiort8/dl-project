@@ -36,9 +36,7 @@ class FPT(nn.Module):
         self.out_layer_sizes = [] if out_layer_sizes is None else out_layer_sizes
         self.dropout = dropout
 
-        if 'gpt' in model_name:
-            assert model_name in ['gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl']
-
+        if model_name in ['sshleifer/tiny-gpt2', 'gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl', 'minimaxir/magic-the-gathering']:
             from transformers import GPT2Model
 
             pretrained_transformer = GPT2Model.from_pretrained(model_name)
@@ -55,6 +53,13 @@ class FPT(nn.Module):
                 embedding_size = 1280
             elif model_name == 'gpt2-xl':
                 embedding_size = 1600
+            elif model_name == 'sshleifer/tiny-gpt2':
+                embedding_size = 2
+            elif model_name == 'minimaxir/magic-the-gathering':
+                embedding_size = 128
+            else:
+                print(vars())
+                raise NotImplementedError(f"{model_name} not implemented")
 
         else:
             raise NotImplementedError('model_name not implemented')

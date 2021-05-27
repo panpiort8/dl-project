@@ -8,10 +8,15 @@ import wandb
 from universal_computation.fpt import FPT
 from universal_computation.trainer import Trainer
 
+def count_weights(model):
+    model_parameters = filter(lambda p: p.requires_grad, model.parameters())
+    params = sum([np.prod(p.size()) for p in model_parameters])
+    return params
 
 def experiment(
         exp_name,
         exp_args,
+        early_stop: int = 10,
         **kwargs
 ):
     """
@@ -232,6 +237,10 @@ def experiment(
         print('*'*100)
         wandb.watch(model)
 
+    best_test_loss = 1e10
+    best_test_iter = -1
+    print(model)
+    wandb.log({"model_weights": count_weights(model)})
     for t in range(exp_args['num_iters']):
         trainer.train_epoch()
 
@@ -243,12 +252,25 @@ def experiment(
         if log_to_wandb:
             wandb.log(trainer.diagnostics)
 
-        if save_models and ((t + 1) % exp_args['save_models_every'] == 0 or
-                            (t + 1) == exp_args['num_iters']):
+        if best_test_loss > trainer.diagnostics['Test Loss']:
+            best_test_loss = trainer.diagnostics['Test Loss']
+            best_test_iter = t
+            
             with open(f'models/{run_name}.pt', 'wb') as f:
                 state_dict = dict(model=model.state_dict(), optim=trainer.optim.state_dict())
                 torch.save(state_dict, f)
+            
             print(f'Saved model at {t + 1} iters: {run_name}')
+            
+        if t - best_test_iter >= early_stop:
+            print(f'No progress since {early_stop} epoch. Early stopping.')
+            print('Loading best model!')
+            state = torch.load(f'models/{run_name}.pt')
+            model.load_state_dict(state['model'])
+            trainer.optim.load_state_dict(state['optim'])
+            
+            break
+    
     
     return trainer
 

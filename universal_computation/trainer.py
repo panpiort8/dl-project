@@ -49,15 +49,17 @@ class Trainer:
 
     def test_eval(self, steps, batch_size):
         test_loss, accuracy, total = 0., 0., 0
-    
+        accs, losss =[], []
         with torch.no_grad():
-            for _ in range(steps):
+            while total < steps:
                 x, y = self.dataset.get_batch(batch_size, train=False)
                 total += y.shape[0]
                 loss, acc = self.get_loss(x, y, return_acc=True)
-                test_loss += loss.detach().cpu().item() / steps
-                accuracy += acc / steps
-            
+                losss.append(loss.detach().cpu().item())
+                accs.append(acc)
+#                 test_loss += loss.detach().cpu().item() / steps
+#                 accuracy += acc * y.shape[0]
+        return sum(losss)/len(losss), sum(accs)/len(accs), total
         return test_loss, accuracy, total
                 
     def train_epoch(self, test_steps=None):
