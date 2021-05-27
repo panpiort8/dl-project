@@ -196,8 +196,14 @@ def experiment(
         )
         wandb.watch(model)
 
+    test_acc =[]
     for t in range(exp_args['num_iters']):
         trainer.train_epoch()
+
+        test_acc.append(trainer.diagnostics['Test Accuracy'])
+        if len(test_acc) > 100: test_acc.pop(0)
+        avg_test_acc = sum(test_acc) / len(test_acc)
+        trainer.diagnostics['Average Test Accuracy'] = avg_test_acc
 
         print('=' * 57)
         print(f'| Iteration {" " * 15} | {t + 1:25} |')
