@@ -36,33 +36,17 @@ class FPT(nn.Module):
         self.out_layer_sizes = [] if out_layer_sizes is None else out_layer_sizes
         self.dropout = dropout
 
-        if model_name in ['sshleifer/tiny-gpt2', 'gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl', 'minimaxir/magic-the-gathering']:
-            from transformers import GPT2Model
+        #lvwerra/gpt2-imdb
 
-            pretrained_transformer = GPT2Model.from_pretrained(model_name)
-            if pretrained:
-                self.transformer = pretrained_transformer
-            else:
-                self.transformer = GPT2Model(pretrained_transformer.config)
+        from transformers import GPT2Model
 
-            if model_name == 'gpt2':
-                embedding_size = 768
-            elif model_name == 'gpt2-medium':
-                embedding_size = 1024
-            elif model_name == 'gpt2-large':
-                embedding_size = 1280
-            elif model_name == 'gpt2-xl':
-                embedding_size = 1600
-            elif model_name == 'sshleifer/tiny-gpt2':
-                embedding_size = 2
-            elif model_name == 'minimaxir/magic-the-gathering':
-                embedding_size = 128
-            else:
-                print(vars())
-                raise NotImplementedError(f"{model_name} not implemented")
-
+        pretrained_transformer = GPT2Model.from_pretrained(model_name)
+        if pretrained:
+            self.transformer = pretrained_transformer
         else:
-            raise NotImplementedError('model_name not implemented')
+            self.transformer = GPT2Model(pretrained_transformer.config)
+
+        embedding_size = self.transformer.config.n_embd
 
         if use_embeddings_for_in:
             self.in_net = nn.Embedding(input_dim, embedding_size)
