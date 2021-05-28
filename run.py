@@ -16,6 +16,7 @@ if __name__ == "__main__":
     parser.add_argument('--tag', action='append')
     parser.add_argument('--task-name', type=str, required=False)
     parser.add_argument('--model', type=str, required=False)
+    parser.add_argument('--early-stop', type=int)
     parser.add_argument('config')
     
     args = parser.parse_args()
@@ -39,6 +40,9 @@ if __name__ == "__main__":
    
     if args.model:
         experiment_params['model_name'] = args.model
+       
+    if args.early_stop:
+        experiment_params['early_stop'] = int(args.early_stop)
 
     from types import SimpleNamespace
 
@@ -47,7 +51,7 @@ if __name__ == "__main__":
     ####### Run experiment
     trainer = run_experiment(experiment_name, experiment_params, Args)
 
-    final = trainer.test_eval(10000, None)
+    final = trainer.test_eval(10000, experiment_params['batch_size'])
 
     wandb.log({
         'Final Loss': final[0],
