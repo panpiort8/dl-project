@@ -22,7 +22,7 @@
         "out_layer_size": null,
         
         "learning_rate": 0.001,
-        "batch_size": 100,
+        "batch_size": 50,
         "dropout": 0.1,
         "orth_gain": 1.41
     },
@@ -39,6 +39,6 @@
         "save_models": false,
         "save_models_ever": 25,
         "device": "cuda",
-        "gpu_batch_size": 100
+        "gpu_batch_size": 50
     }
 }

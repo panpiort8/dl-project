@@ -16,7 +16,7 @@ def count_weights(model, all=False):
 def experiment(
         exp_name,
         exp_args,
-        early_stop: int = 10,
+        
         **kwargs
 ):
     """
@@ -27,6 +27,8 @@ def experiment(
     assert 'batch_size' in kwargs
     assert kwargs['batch_size'] <= exp_args['gpu_batch_size'] or \
            kwargs['batch_size'] % exp_args['gpu_batch_size'] == 0
+    
+    early_stop = exp_args.get('early_stop', 10)
 
     """
     Create dataset, model, and trainer

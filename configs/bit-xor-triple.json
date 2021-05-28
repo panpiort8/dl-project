@@ -1,17 +1,18 @@
 {
-    "name": "fpt",
+    "name": "bit-xor-triple",
+
     "params": {
-        "task": "mnist-add",
-        "n": 10,
-        "num_patterns": 5,
-        "patch_size": 28,
+        "task": "bit-xor",
+        "n": 100,
+        "num_patterns": 3,
+        "patch_size": null,
         
         "model_name": "gpt2",
         "pretrained": true,
         
         "freeze_trans": true,
         "freeze_in": false,
-        "freeze_pos": false,
+        "freeze_pos": true,
         "freeze_ln": false,
         "freeze_attn": true,
         "freeze_ff": true,
@@ -21,7 +22,7 @@
         "out_layer_size": null,
         
         "learning_rate": 0.001,
-        "batch_size": 50,
+        "batch_size": 25,
         "dropout": 0.1,
         "orth_gain": 1.41
     },
@@ -38,6 +39,6 @@
         "save_models": false,
         "save_models_ever": 25,
         "device": "cuda",
-        "gpu_batch_size": 50
+        "gpu_batch_size": 25
     }
 }
