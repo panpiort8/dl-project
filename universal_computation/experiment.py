@@ -106,6 +106,12 @@ def experiment(
         use_embeddings = True
         experiment_type = 'classification'
 
+    elif task == 'speech-commands':
+        from universal_computation.datasets.speech_commands import SpeechCommandsDataset
+        dataset = SpeechCommandsDataset(batch_size=batch_size, sample_rate=8000, device=device)
+        input_dim, output_dim = 8000, 35
+        use_embeddings = False
+        experiment_type = 'classification'
     else:
         raise NotImplementedError('dataset not implemented')
 
@@ -210,7 +216,6 @@ def experiment(
 
     log_to_wandb = exp_args['log_to_wandb']
     save_models = exp_args['save_models']
-    wandb_project = exp_args['wandb_project']
 
     short_name = datetime.now().strftime('%Y%m%d-%H%M')
 #     short_name = str(random.randint(int(1e5), int(1e6) - 1))
@@ -223,6 +228,7 @@ def experiment(
             **exp_args,
             **kwargs,
         )
+
         config['model_weights'] = count_weights(model)
         config['model_all_weights'] = count_weights(model, all=True)
         
@@ -233,9 +239,9 @@ def experiment(
         
         wandb.init(
             name=f'{exp_name}-{short_name}',
-            group=f'{exp_name}-{task}-n-{kwargs["n"]}',
-            project='universal-computation-engine',
-            entity='dl-project2',
+            group=f'{exp_name}-{task}',
+            project=exp_args['wandb_project'],
+            entity=exp_args['wandb_entity'],
             config=config,
         )
 
@@ -244,8 +250,15 @@ def experiment(
     best_test_loss = 1e10
     best_test_iter = -1
     
+    test_acc =[]
+
     for t in range(exp_args['num_iters']):
         trainer.train_epoch()
+
+        test_acc.append(trainer.diagnostics['Test Accuracy'])
+        if len(test_acc) > 100: test_acc.pop(0)
+        avg_test_acc = sum(test_acc) / len(test_acc)
+        trainer.diagnostics['Average Test Accuracy'] = avg_test_acc
 
         print('=' * 57)
         print(f'| Iteration {" " * 15} | {t + 1:25} |')
