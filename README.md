@@ -8,7 +8,6 @@ Reproduces and extends [Pretrained Transformers as Universal Computation Engines
 
 Open our pipeline in [Colab](https://colab.research.google.com/github/panpiort8/dl-project/blob/master/pipeline.ipynb).
 
-
 ### Weights and Biases
 
 Check our results in [wandb](https://wandb.ai/dl-project2) page.
@@ -17,18 +16,22 @@ Check our results in [wandb](https://wandb.ai/dl-project2) page.
 
 #### MNIST
 
-The MNIST database contains 60,000 training images and 10,000 testing images of handwritten digits.
-We use the standard MNIST benchmark, where the model must classify 32 × 32 black-and-white image. The tokens given to the model are 4 × 4 image patches, so
-the models are fed 64 tokens of dimension 16.
+The MNIST database contains 60,000 training images and 10,000 testing images of handwritten digits. We use the standard
+MNIST benchmark, where the model must classify 32 × 32 black-and-white image. The tokens given to the model are 4 × 4
+image patches, so the models are fed 64 tokens of dimension 16.
 
 #### CIFAR 10
 
-The CIFAR-10 dataset contains 60,000 32x32 color images in 10 different classes. The 10 different classes represent airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. There are 6,000 images of each class.
-We use the standard CIFAR-10 benchmark, where the tokens given to the model are 4 × 4 image patches, so the models are fed 64 tokens of dimension 16.
+The CIFAR-10 dataset contains 60,000 32x32 color images in 10 different classes. The 10 different classes represent
+airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. There are 6,000 images of each class. We use
+the standard CIFAR-10 benchmark, where the tokens given to the model are 4 × 4 image patches, so the models are fed 64
+tokens of dimension 16.
 
 #### MNIST Digits Addition
 
-//TODO short dataset description
+Model is presented with a sequence of `n` MNIST digits (28x28 pixels) and should predict the sum of them. Task is
+parametrized by a sequence length (for `n=1` it is equivalend to standard MNIST task). Task is taken from
+this [paper](https://arxiv.org/pdf/1808.00508.pdf).
 
 #### Speech Commands
 
@@ -38,7 +41,6 @@ samples over 30 classes, and the second containing 110k samples over 35 classes.
 version which is available in the [torchaudio](https://pytorch.org/audio/stable/index.html) library.
 
 #### Cyp3A4 Inhibition
-
 
 The CYP P450 genes are involved in the formation and breakdown (metabolism) of various molecules and chemicals within
 cells. Specifically, CYP3A4 is an important enzyme in the body, mainly found in the liver and in the intestine. It
@@ -67,13 +69,7 @@ The baseline for this dataset is LSTM, taken from original [paper](https://arxiv
 
 #### MNIST Digits Addition
 
-Modele get presented sequence of `n` MNIST digits (28x28 pixels) and should predict sum of them. Task is parametrized by sequence length (for `n=1` it is equivalend to standard MNIST task).
-
-Source: Neural Arithmetic Logic Units (https://arxiv.org/pdf/1808.00508.pdf)
-
-
 //TODO what is the baseline? Short description and reference.
-
 
 #### Cyp3A4 Inhibition
 
@@ -133,7 +129,7 @@ Speech Command | Accuracy | 8.69% | 1 | 400 | steps_per_iter=200 <br /> test_ste
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
 FPT | 98.15% | 63.24% | ... | 75% | 8.69%
-Baseline | 99.5% | 73.6% | ... | ... | ... 
+Baseline | 99.5% | 73.6% | ... | ... | ...
 
 ## Question 2
 
@@ -164,6 +160,7 @@ experiments_params = dict(
    they somehow comparable?
 
 ### Empirical results
+
 //TODO Result = average of n runs
 
 Dataset | Metric Name | Result | #runs
@@ -248,7 +245,8 @@ experiments_params = dict(
 )
 ```
 
-2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1). Are they somehow comparable?
+2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1). Are
+   they somehow comparable?
 
 ### Empirical results
 
