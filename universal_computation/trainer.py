@@ -47,16 +47,33 @@ class Trainer:
             return loss, accs
         return loss
 
+    def test_eval(self, steps, batch_size):
+        test_loss, accuracy, total = 0., 0., 0
+        accs, losss =[], []
+        with torch.no_grad():
+            while total < steps:
+                x, y = self.dataset.get_batch(batch_size, train=False)
+                total += y.shape[0]
+                loss, acc = self.get_loss(x, y, return_acc=True)
+                losss.append(loss.detach().cpu().item())
+                accs.append(acc)
+#                 test_loss += loss.detach().cpu().item() / steps
+#                 accuracy += acc * y.shape[0]
+        return sum(losss)/len(losss), sum(accs)/len(accs), total
+        return test_loss, accuracy, total
+                
     def train_epoch(self, test_steps=None):
         self.dataset.start_epoch()
 
         train_losses, tr_accuracy = [], 0.
         self.model.train()
         start_train_time = time.time()
+        self.sample_counts = 0
         for _ in tqdm(range(self.steps_per_epoch)):
             step_loss = 0
             for _ in range(self.grad_accumulate):
                 x, y = self.dataset.get_batch(self.batch_size, train=True)
+                self.sample_counts += x.shape[0]
                 loss, acc = self.get_loss(x, y, return_acc=True)
                 loss = loss / self.grad_accumulate
                 loss.backward()
@@ -74,15 +91,10 @@ class Trainer:
 
         test_steps = self.test_steps_per_epoch if test_steps is None else test_steps
 
-        test_loss, accuracy = 0., 0.
+        
         self.model.eval()
         start_test_time = time.time()
-        with torch.no_grad():
-            for _ in range(test_steps):
-                x, y = self.dataset.get_batch(self.eval_batch_size, train=False)
-                loss, acc = self.get_loss(x, y, return_acc=True)
-                test_loss += loss.detach().cpu().item() / test_steps
-                accuracy += acc / test_steps
+        test_loss, accuracy, _ = self.test_eval(test_steps, self.eval_batch_size)
         end_test_time = time.time()
 
         self.diagnostics['Average Train Loss'] = sum(train_losses) / self.steps_per_epoch

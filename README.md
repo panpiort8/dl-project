@@ -4,9 +4,10 @@
 
 Reproduces and extends [Pretrained Transformers as Universal Computation Engines](https://arxiv.org/abs/2103.05247).
 
-### Pipeline
+## Pipeline
 
 Open our pipeline in [Colab](https://colab.research.google.com/github/panpiort8/dl-project/blob/master/pipeline.ipynb).
+
 
 ### Weights and Biases
 
@@ -38,12 +39,13 @@ version which is available in the [torchaudio](https://pytorch.org/audio/stable/
 
 #### Cyp3A4 Inhibition
 
+
 The CYP P450 genes are involved in the formation and breakdown (metabolism) of various molecules and chemicals within
 cells. Specifically, CYP3A4 is an important enzyme in the body, mainly found in the liver and in the intestine. It
 oxidizes small foreign organic molecules (xenobiotics), such as toxins or drugs, so that they can be removed from the
 body.
 
-### Baselines
+#### Baselines
 
 //TODO
 
@@ -65,7 +67,13 @@ The baseline for this dataset is LSTM, taken from original [paper](https://arxiv
 
 #### MNIST Digits Addition
 
+Modele get presented sequence of `n` MNIST digits (28x28 pixels) and should predict sum of them. Task is parametrized by sequence length (for `n=1` it is equivalend to standard MNIST task).
+
+Source: Neural Arithmetic Logic Units (https://arxiv.org/pdf/1808.00508.pdf)
+
+
 //TODO what is the baseline? Short description and reference.
+
 
 #### Cyp3A4 Inhibition
 
