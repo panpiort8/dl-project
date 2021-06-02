@@ -40,7 +40,6 @@ def get_vit_transformer(model_name: str, pretrained: bool, max_sequence_len: int
     if pretrained:
         model.load_from(np.load(f'{model_name}.npz'))
     transformer = nn.Sequential(ViTEmbeddings(config, max_sequence_len), model.transformer.encoder, Lambda())
-    print(transformer)
     return transformer, config.hidden_size
 
 
