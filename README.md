@@ -4,7 +4,7 @@
 
 Reproduces and extends [Pretrained Transformers as Universal Computation Engines](https://arxiv.org/abs/2103.05247).
 
-### Pipeline
+## Pipeline
 
 Open our pipeline in [Colab](https://colab.research.google.com/github/panpiort8/dl-project/blob/master/pipeline.ipynb).
 
@@ -16,18 +16,22 @@ Check our results in [wandb](https://wandb.ai/dl-project2) page.
 
 #### MNIST
 
-The MNIST database contains 60,000 training images and 10,000 testing images of handwritten digits.
-We use the standard MNIST benchmark, where the model must classify 32 × 32 black-and-white image. The tokens given to the model are 4 × 4 image patches, so
-the models are fed 64 tokens of dimension 16.
+The MNIST database contains 60,000 training images and 10,000 testing images of handwritten digits. We use the standard
+MNIST benchmark, where the model must classify 32 × 32 black-and-white image. The tokens given to the model are 4 × 4
+image patches, so the models are fed 64 tokens of dimension 16.
 
 #### CIFAR 10
 
-The CIFAR-10 dataset contains 60,000 32x32 color images in 10 different classes. The 10 different classes represent airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. There are 6,000 images of each class.
-We use the standard CIFAR-10 benchmark, where the tokens given to the model are 4 × 4 image patches, so the models are fed 64 tokens of dimension 16.
+The CIFAR-10 dataset contains 60,000 32x32 color images in 10 different classes. The 10 different classes represent
+airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. There are 6,000 images of each class. We use
+the standard CIFAR-10 benchmark, where the tokens given to the model are 4 × 4 image patches, so the models are fed 64
+tokens of dimension 16.
 
 #### MNIST Digits Addition
 
-//TODO short dataset description
+Model is presented with a sequence of `n` MNIST digits (28x28 pixels) and should predict the sum of them. Task is
+parametrized by a sequence length (for `n=1` it is equivalend to standard MNIST task). Task is taken from
+this [paper](https://arxiv.org/pdf/1808.00508.pdf).
 
 #### Speech Commands
 
@@ -43,7 +47,7 @@ cells. Specifically, CYP3A4 is an important enzyme in the body, mainly found in 
 oxidizes small foreign organic molecules (xenobiotics), such as toxins or drugs, so that they can be removed from the
 body.
 
-### Baselines
+#### Baselines
 
 //TODO
 
@@ -52,7 +56,7 @@ Dataset | Metric Name | Result | #runs
 MNIST | Accuracy | 99.5% | ...
 CIFAR 10 | Accuracy | 73.6% | ...
 MNIST Digits Addition | ? | ... | ...
-Cyp3A4 Inhibition | Accuracy | ... | ...
+Cyp3A4 Inhibition | Accuracy | 82.1% | ...
 Speech Command | Accuracy | 98.1%  | ...
 
 #### MNIST
@@ -125,7 +129,7 @@ Speech Command | Accuracy | 8.66% | 1 | 380 | steps_per_iter=200 <br /> test_ste
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
 FPT | 98.15% | 63.24% | ... | 75.65% | 8.66%
-Baseline | 99.5% | 73.6% | ... | ... | ... 
+Baseline | 99.5% | 73.6% | ... | 82.1% | ...
 
 ## Question 2
 
@@ -156,6 +160,7 @@ experiments_params = dict(
    they somehow comparable?
 
 ### Empirical results
+
 //TODO Result = average of n runs
 
 Dataset | Metric Name | Result | #runs
@@ -247,7 +252,8 @@ experiments_params = dict(
 )
 ```
 
-2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1). Are they somehow comparable?
+2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1). Are
+   they somehow comparable?
 
 ### Empirical results
 

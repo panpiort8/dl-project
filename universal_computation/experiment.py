@@ -8,10 +8,15 @@ import wandb
 from universal_computation.fpt import FPT
 from universal_computation.trainer import Trainer
 
+def count_weights(model, all=False):
+    model_parameters = filter(lambda p: all or p.requires_grad, model.parameters())
+    params = sum([np.prod(p.size()) for p in model_parameters])
+    return params
 
 def experiment(
         exp_name,
         exp_args,
+        
         **kwargs
 ):
     """
@@ -22,6 +27,8 @@ def experiment(
     assert 'batch_size' in kwargs
     assert kwargs['batch_size'] <= exp_args['gpu_batch_size'] or \
            kwargs['batch_size'] % exp_args['gpu_batch_size'] == 0
+    
+    early_stop = exp_args.get('early_stop', 10)
 
     """
     Create dataset, model, and trainer
@@ -57,6 +64,20 @@ def experiment(
         use_embeddings = False
         experiment_type = 'classification'
 
+    elif task == 'mnist-add':
+        from universal_computation.datasets.mnist import MNISTDigitAdditionDataset
+        dataset = MNISTDigitAdditionDataset(batch_size=batch_size, seq_length=kwargs['n'], device=device)
+        input_dim, output_dim = 28**2, 9*kwargs['n']+1
+        use_embeddings = False
+        experiment_type = 'classification'
+        
+    elif task == 'mnist-add-reg':
+        from universal_computation.datasets.mnist import MNISTDigitAdditionDataset
+        dataset = MNISTDigitAdditionDataset(batch_size=batch_size, seq_length=kwargs['n'], device=device)
+        input_dim, output_dim = 28**2, 1
+        use_embeddings = False
+        experiment_type = 'regression'
+        
     elif task == 'cifar10':
         from universal_computation.datasets.cifar10 import CIFAR10Dataset
         dataset = CIFAR10Dataset(batch_size=batch_size, patch_size=patch_size, device=device)
@@ -117,7 +138,28 @@ def experiment(
                 return (np.sign(preds) == np.sign(true)).mean()
             else:
                 return ((preds > 0.5) == (true > 0.5)).mean()
+    elif task == 'mnist-add':
+        ce_loss = torch.nn.CrossEntropyLoss()
 
+        def loss_fn(out, y, x=None):
+            out = out[:, 0]
+            return ce_loss(out, y)
+
+        mae_loss = torch.nn.L1Loss()
+        def accuracy_fn(preds, true, x=None):
+            preds = preds[:, 0].argmax(-1)
+            return np.abs(preds - true).mean()
+#             print(preds, true)
+#             return mae_loss(preds, true)
+        
+    elif experiment_type == 'regression':
+        def loss_fn(out, y, x=None):
+            out = out[:, 0]
+            return torch.abs(out - y).mean()
+
+        def accuracy_fn(preds, true, x=None):
+            return np.abs(preds - true).mean()
+        
     elif experiment_type == 'classification':
 
         ce_loss = torch.nn.CrossEntropyLoss()
@@ -175,7 +217,8 @@ def experiment(
     log_to_wandb = exp_args['log_to_wandb']
     save_models = exp_args['save_models']
 
-    short_name = str(random.randint(int(1e5), int(1e6) - 1))
+    short_name = datetime.now().strftime('%Y%m%d-%H%M')
+#     short_name = str(random.randint(int(1e5), int(1e6) - 1))
     run_name = f'{exp_name}-{task}-{short_name}'
 
     if log_to_wandb:
@@ -185,8 +228,15 @@ def experiment(
             **exp_args,
             **kwargs,
         )
-        del config['__dict__']
-        del config['__weakref__']
+
+        config['model_weights'] = count_weights(model)
+        config['model_all_weights'] = count_weights(model, all=True)
+        
+        if '__dict__' in config:
+            del config['__dict__']
+        if '__weakref__' in config:
+            del config['__weakref__']
+        
         wandb.init(
             name=f'{exp_name}-{short_name}',
             group=f'{exp_name}-{task}',
@@ -194,9 +244,14 @@ def experiment(
             entity=exp_args['wandb_entity'],
             config=config,
         )
+
         wandb.watch(model)
 
+    best_test_loss = 1e10
+    best_test_iter = -1
+    
     test_acc =[]
+
     for t in range(exp_args['num_iters']):
         trainer.train_epoch()
 
@@ -213,12 +268,27 @@ def experiment(
         if log_to_wandb:
             wandb.log(trainer.diagnostics)
 
-        if save_models and ((t + 1) % exp_args['save_models_every'] == 0 or
-                            (t + 1) == exp_args['num_iters']):
+        if best_test_loss > trainer.diagnostics['Test Loss']:
+            best_test_loss = trainer.diagnostics['Test Loss']
+            best_test_iter = t
+            
             with open(f'models/{run_name}.pt', 'wb') as f:
                 state_dict = dict(model=model.state_dict(), optim=trainer.optim.state_dict())
                 torch.save(state_dict, f)
+            
             print(f'Saved model at {t + 1} iters: {run_name}')
+            
+        if t - best_test_iter >= early_stop:
+            print(f'No progress since {early_stop} epoch. Early stopping.')
+            print('Loading best model!')
+            state = torch.load(f'models/{run_name}.pt')
+            model.load_state_dict(state['model'])
+            trainer.optim.load_state_dict(state['optim'])
+            
+            break
+    
+    
+    return trainer
 
 
 def run_experiment(
@@ -235,4 +305,4 @@ def run_experiment(
     experiment_params['exp_name'] = exp_name
     experiment_params['exp_args'] = vars(exp_args)
 
-    experiment(xp_name=exp_name, **experiment_params)
+    return experiment(xp_name=exp_name, **experiment_params)

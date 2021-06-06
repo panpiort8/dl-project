@@ -2,6 +2,7 @@ from einops import rearrange
 from torch.utils.data import DataLoader
 import torchvision
 import torchvision.transforms as transforms
+import torch
 
 from universal_computation.datasets.dataset import Dataset
 
@@ -46,6 +47,58 @@ class MNISTDataset(Dataset):
         if self.patch_size is not None:
             x = rearrange(x, 'b c (h p1) (w p2) -> b (h w) (p1 p2 c)', p1=self.patch_size, p2=self.patch_size)
 
+        x = x.to(device=self.device)
+        y = y.to(device=self.device)
+
+        self._ind += 1
+
+        return x, y
+
+    
+class MNISTDigitAdditionDataset(Dataset):
+
+    def __init__(self, batch_size, seq_length=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.batch_size = batch_size  # we fix it so we can use dataloader
+        self.seq_length = seq_length  # length of sequence
+
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize(mean=0., std=1.),
+        ])
+
+        self.d_train = DataLoader(
+            torchvision.datasets.MNIST('data/mnist', download=True, train=True, transform=transform),
+            batch_size=batch_size*seq_length, drop_last=True, shuffle=True,
+        )
+        self.d_test = DataLoader(
+            torchvision.datasets.MNIST('data/mnist', download=True, train=False, transform=transform),
+            batch_size=batch_size*seq_length, drop_last=True, shuffle=True,
+        )
+
+        self.train_enum = enumerate(self.d_train)
+        self.test_enum = enumerate(self.d_test)
+
+    def get_batch(self, batch_size=None, train=True):
+        Xs, Ys = [], []
+        while True:
+            _, (x, y) = next(
+                self.train_enum if train else self.test_enum, 
+                (None, (None, None))
+            )
+            
+            if x is None:
+                if train:
+                    self.train_enum = enumerate(self.d_train)
+                else:
+                    self.test_enum = enumerate(self.d_test)
+                continue
+            break
+        
+        x = x.reshape(self.batch_size, self.seq_length, 28*28)
+        y = y.reshape(self.batch_size, self.seq_length).sum(axis=1)
+        
         x = x.to(device=self.device)
         y = y.to(device=self.device)
 
