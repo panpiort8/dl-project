@@ -1,0 +1,11 @@
+{
+    "name": "mnist-add-reg-10",
+    "params": {
+        "task": "mnist-add-reg",
+        "n": 10,
+        "num_patterns": null,
+        "patch_size": 28        
+    },
+    
+    "args": {}
+}

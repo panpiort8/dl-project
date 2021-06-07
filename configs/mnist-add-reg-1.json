@@ -1,0 +1,15 @@
+{
+    "name": "mnist-add-reg-1",
+    "params": {
+        "task": "mnist-add-reg",
+        "n": 1,
+        "num_patterns": null,
+        "patch_size": 28,
+	"out_layer_sizes": [50],
+	"learning_rate": 0.001
+    },
+    
+    "args": {
+	"num_iters": 1000
+    }
+}
