@@ -16,7 +16,7 @@ def count_weights(model, all=False):
 def experiment(
         exp_name,
         exp_args,
-        
+        early_stop: int = 10,
         **kwargs
 ):
     """
@@ -28,8 +28,6 @@ def experiment(
     assert kwargs['batch_size'] <= exp_args['gpu_batch_size'] or \
            kwargs['batch_size'] % exp_args['gpu_batch_size'] == 0
     
-    early_stop = exp_args.get('early_stop', 10)
-
     """
     Create dataset, model, and trainer
     """
@@ -53,7 +51,7 @@ def experiment(
         from universal_computation.datasets.bit_xor import BitXORDataset
         dataset = BitXORDataset(n=kwargs['n'], num_patterns=kwargs['num_patterns'], device=device)
         input_dim = kwargs['n'] if patch_size is None else patch_size
-        output_dim = 2 * kwargs['n'] if patch_size is None else 2 * patch_size
+        output_dim = kwargs['n'] if patch_size is None else 2 * patch_size
         use_embeddings = False
         experiment_type = 'classification'
 
@@ -75,6 +73,13 @@ def experiment(
         from universal_computation.datasets.mnist import MNISTDigitAdditionDataset
         dataset = MNISTDigitAdditionDataset(batch_size=batch_size, seq_length=kwargs['n'], device=device)
         input_dim, output_dim = 28**2, 1
+        use_embeddings = False
+        experiment_type = 'regression'
+    
+    elif task == 'digit-add':
+        from universal_computation.datasets.nalu import DigitAdditionDataset
+        dataset = DigitAdditionDataset(batch_size=batch_size, seq_length=kwargs['n'], device=device)
+        input_dim, output_dim = 10, 1
         use_embeddings = False
         experiment_type = 'regression'
         
@@ -115,8 +120,31 @@ def experiment(
     else:
         raise NotImplementedError('dataset not implemented')
 
-    if 'bit' in task:
-
+    if task == 'bit-xor':
+#         mse = torch.nn.MSELoss(reduction='mean')
+#         nll = torch.nn.NLLLoss(reduction='mean')
+        bce = torch.nn.BCELoss(reduction='mean')
+        m = torch.nn.Sigmoid()
+        
+        def loss_fn(out, y, x=None):
+#             print(out.shape, y.shape)
+#             print(type(y))
+            return bce(m(out.reshape(-1)), y.reshape(-1).float())
+#             return nll(out.reshape((out.shape[0], out.shape[2])), y)
+#             return mse(out, y)
+        
+        def accuracy_fn(preds, true, x=None):
+            preds = preds.reshape((preds.shape[0], preds.shape[2]))
+#             print(preds)
+#             print(true)
+            
+#             print(true.shape, preds.shape, preds.size, ((preds > 0.0) == (true > 0.5)).sum())
+#             print(((preds > 0.0) == (true > 0.5)).sum() / preds.size)
+#             print("*"*100)
+            
+            return ((preds > 0.0) == (true > 0.5)).mean()
+        
+    elif 'bit' in task:
         ce_loss = torch.nn.CrossEntropyLoss()
 
         def loss_fn(out, y, x=None):
@@ -154,11 +182,13 @@ def experiment(
         
     elif experiment_type == 'regression':
         def loss_fn(out, y, x=None):
-            out = out[:, 0]
-            return torch.abs(out - y).mean()
+            out = out.reshape((-1, 1))
+            return ((out - y)**2).mean()
 
         def accuracy_fn(preds, true, x=None):
+            preds = preds.reshape((-1, 1))
             return np.abs(preds - true).mean()
+        print("*"*1000)
         
     elif experiment_type == 'classification':
 
@@ -209,7 +239,9 @@ def experiment(
         eval_batch_size=batch_size,
         grad_accumulate=batch_size // gpu_batch_size if batch_size > gpu_batch_size else 1,
     )
-
+    
+    print(model)
+    
     """
     Set up logging
     """
