@@ -9,6 +9,45 @@ import json
 from universal_computation.experiment import run_experiment
 from argparse import ArgumentParser
 
+DEFAULT_PARAMS = {
+    "model_name": "gpt2",
+    "pretrained": True,
+
+    "freeze_trans": True,
+    "freeze_in": False,
+    "freeze_pos": True,
+    "freeze_ln": False,
+    "freeze_attn": True,
+    "freeze_ff": True,
+    "freeze_out": False,
+
+    "in_layer_size": None,
+    "out_layer_size": None,
+
+    "learning_rate": 0.001,
+    "batch_size": 25,
+    "dropout": 0.1,
+    "orth_gain": 1.41,
+    "patch_size": None
+}
+
+DEFAULT_ARGS = {
+    "log_to_wandb": True,
+    "note": "",
+    "wandb_project": "universal-computation-engine",
+    "wandb_entity": "dl-project2",
+
+    "include_date": False,
+    "save_models": False,
+    "save_models_ever": 25,
+    "device": "cuda",
+
+    "num_iters": 50,
+    "steps_per_iter": 1000,
+    "test_steps_per_iter": 100,
+    "gpu_batch_size": 25    
+}
+
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -22,13 +61,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args)
     
+
     ####### Load configuration
     with open(args.config) as input:
         params = json.load(input)
 
     experiment_name = params['name']
 
-    experiment_params = params['params']
+    experiment_params = {
+        **DEFAULT_PARAMS,
+        **params['params']
+    }
 
     if args.task_name:
         *prefix, suffix = args.task_name.split('-')
@@ -46,8 +89,13 @@ if __name__ == "__main__":
 
     from types import SimpleNamespace
 
-    Args = SimpleNamespace(**params['args'])
+    experiment_args = {
+        **DEFAULT_ARGS,
+        **params['args']
+    }
+    Args = SimpleNamespace(**experiment_args)
     
+
     ####### Run experiment
     trainer = run_experiment(experiment_name, experiment_params, Args)
 
