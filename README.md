@@ -8,7 +8,6 @@ Reproduces and extends [Pretrained Transformers as Universal Computation Engines
 
 Open our pipeline in [Colab](https://colab.research.google.com/github/panpiort8/dl-project/blob/master/pipeline.ipynb).
 
-
 ### Weights and Biases
 
 Check our results in [wandb](https://wandb.ai/dl-project2) page.
@@ -17,18 +16,22 @@ Check our results in [wandb](https://wandb.ai/dl-project2) page.
 
 #### MNIST
 
-The MNIST database contains 60,000 training images and 10,000 testing images of handwritten digits.
-We use the standard MNIST benchmark, where the model must classify 32 × 32 black-and-white image. The tokens given to the model are 4 × 4 image patches, so
-the models are fed 64 tokens of dimension 16.
+The MNIST database contains 60,000 training images and 10,000 testing images of handwritten digits. We use the standard
+MNIST benchmark, where the model must classify 32 × 32 black-and-white image. The tokens given to the model are 4 × 4
+image patches, so the models are fed 64 tokens of dimension 16.
 
 #### CIFAR 10
 
-The CIFAR-10 dataset contains 60,000 32x32 color images in 10 different classes. The 10 different classes represent airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. There are 6,000 images of each class.
-We use the standard CIFAR-10 benchmark, where the tokens given to the model are 4 × 4 image patches, so the models are fed 64 tokens of dimension 16.
+The CIFAR-10 dataset contains 60,000 32x32 color images in 10 different classes. The 10 different classes represent
+airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. There are 6,000 images of each class. We use
+the standard CIFAR-10 benchmark, where the tokens given to the model are 4 × 4 image patches, so the models are fed 64
+tokens of dimension 16.
 
 #### MNIST Digits Addition
 
-//TODO short dataset description
+Model is presented with a sequence of `n` MNIST digits (28x28 pixels) and should predict the sum of them. Task is
+parametrized by a sequence length (for `n=1` it is equivalend to standard MNIST task). Task is taken from
+this [paper](https://arxiv.org/pdf/1808.00508.pdf).
 
 #### Speech Commands
 
@@ -38,7 +41,6 @@ samples over 30 classes, and the second containing 110k samples over 35 classes.
 version which is available in the [torchaudio](https://pytorch.org/audio/stable/index.html) library.
 
 #### Cyp3A4 Inhibition
-
 
 The CYP P450 genes are involved in the formation and breakdown (metabolism) of various molecules and chemicals within
 cells. Specifically, CYP3A4 is an important enzyme in the body, mainly found in the liver and in the intestine. It
@@ -54,7 +56,7 @@ Dataset | Metric Name | Result | #runs
 MNIST | Accuracy | 99.5% | ...
 CIFAR 10 | Accuracy | 73.6% | ...
 MNIST Digits Addition | ? | ... | ...
-Cyp3A4 Inhibition | Accuracy | ... | ...
+Cyp3A4 Inhibition | Accuracy | 82.1% | ...
 Speech Command | Accuracy | 98.1%  | ...
 
 #### MNIST
@@ -67,13 +69,7 @@ The baseline for this dataset is LSTM, taken from original [paper](https://arxiv
 
 #### MNIST Digits Addition
 
-Modele get presented sequence of `n` MNIST digits (28x28 pixels) and should predict sum of them. Task is parametrized by sequence length (for `n=1` it is equivalend to standard MNIST task).
-
-Source: Neural Arithmetic Logic Units (https://arxiv.org/pdf/1808.00508.pdf)
-
-
 //TODO what is the baseline? Short description and reference.
-
 
 #### Cyp3A4 Inhibition
 
@@ -117,13 +113,13 @@ experiments_params = dict(
 
 Result = average of test accuracy on k steps (for all experiments k=100)
 
-Dataset | Metric Name | Result | #runs | #steps | Parameters
-:---: | :---: | :---: | :---: | :---: | :---:
-MNIST | Accuracy | 98.15% | 1 | 250 | steps_per_iter=200 <br /> test_steps_per_iter=100  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4
-CIFAR10 | Accuracy | 63.24% | 1 | 550 | steps_per_iter=200 <br /> test_steps_per_iter=100  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4
+Dataset | Metric Name | Result | #runs | #steps | Parameters | wandb
+:---: | :---: | :---: | :---: | :---: | :---: | :---:
+MNIST | Accuracy | 98.15% | 1 | 250 | steps_per_iter=200 <br /> test_steps_per_iter=100  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4 | [3boh2kd2](https://wandb.ai/dl-project2/universal-computation-engine/runs/3boh2kd2)
+CIFAR10 | Accuracy | 63.24% | 1 | 550 | steps_per_iter=200 <br /> test_steps_per_iter=100  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4 | [3qo22alh](https://wandb.ai/dl-project2/universal-computation-engine/runs/3qo22alh)
 MNIST Digits Addition | ? | ... | ... | ...
-Cyp3A4 Inhibition | Accuracy | 75% | 1 | 400 | steps_per_iter=100 <br /> test_steps_per_iter=25  <br /> learning_rate=1e-3  <br /> batch_size=16
-Speech Command | Accuracy | 8.69% | 1 | 400 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16
+Cyp3A4 Inhibition | Accuracy | 75.65% | 1 | 280 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 | [3kzurs4w](https://wandb.ai/dl-project2/universal-computation-engine/runs/3kzurs4w)
+Speech Command | Accuracy | 8.66% | 1 | 380 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-4  <br /> batch_size=16 | [1roigxzp](https://wandb.ai/dl-project2/universal-computation-engine/runs/1roigxzp)
 
 ### Conclusions
 
@@ -132,8 +128,8 @@ Speech Command | Accuracy | 8.69% | 1 | 400 | steps_per_iter=200 <br /> test_ste
 
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
-FPT | 98.15% | 63.24% | ... | 75% | 8.69%
-Baseline | 99.5% | 73.6% | ... | ... | ... 
+FPT | 98.15% | 63.24% | ... | 75.65% | 8.66%
+Baseline | 99.5% | 73.6% | ... | 82.1% | ...
 
 ## Question 2
 
@@ -164,6 +160,7 @@ experiments_params = dict(
    they somehow comparable?
 
 ### Empirical results
+
 //TODO Result = average of n runs
 
 Dataset | Metric Name | Result | #runs
@@ -208,20 +205,27 @@ experiments_params = dict(
 
 ### Empirical results
 
-//TODO Result = average of n runs
+Result = average of test accuracy on k steps (for all experiments k=100)
 
-Dataset | Metric Name | Result | #runs
-:---: | :---: | :---: | :---:
-MNIST | Accuracy | ... | \>=3
-CIFAR 10 | Accuracy | ... | \>=3
-MNIST Digits Addition | ? | ... | \>=3
-Cyp3A4 Inhibition | Accuracy | ... | \>=3
-Speech Command | Accuracy | ... | \>=3
+Dataset | Metric Name | Result | #runs | #steps | Parameters | wandb
+:---: | :---: | :---: | :---: | :---: | :---: | :---:
+MNIST | Accuracy | 97.32% <br /> 97.08% <br /> 96.76% | 3 | 350 <br /> 250 <br /> 220 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4 | [3v1wtr64](https://wandb.ai/dl-project2/universal-computation-engine/runs/3v1wtr64) <br /> [1roiff6y](https://wandb.ai/dl-project2/universal-computation-engine/runs/1roiff6y) <br /> [rdqaxnlm](https://wandb.ai/dl-project2/universal-computation-engine/runs/rdqaxnlm)
+CIFAR 10 | Accuracy | 56.06% <br /> 58.54% <br /> 58.08% | 3 | 375 <br /> 550 <br /> 520 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4 | [2i50a27d](https://wandb.ai/dl-project2/universal-computation-engine/runs/2i50a27d) <br /> [1t4rqtyu](https://wandb.ai/dl-project2/universal-computation-engine/runs/1t4rqtyu) <br /> [2h7i4yza](https://wandb.ai/dl-project2/universal-computation-engine/runs/2h7i4yza)
+MNIST Digits Addition | ? | ... | \>=3 | ... | ... 
+Cyp3A4 Inhibition | Accuracy | 73.08% <br /> 75.8% <br /> 76.52% | 3 | 50 <br /> 75 <br /> 280 |steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 | [fitarqv4](https://wandb.ai/dl-project2/universal-computation-engine/runs/fitarqv4) <br /> [3cnuxa09](https://wandb.ai/dl-project2/universal-computation-engine/runs/3cnuxa09) <br /> [3d155atc](https://wandb.ai/dl-project2/universal-computation-engine/runs/3d155atc)
+Speech Command | Accuracy | 9.06% <br /> 9.3% <br /> 9.41% | 3 | 400 <br /> 365 <br /> 350 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-4  <br /> batch_size=16 | [2ydixs9a](https://wandb.ai/dl-project2/universal-computation-engine/runs/2ydixs9a) <br /> [2fjvlini](https://wandb.ai/dl-project2/universal-computation-engine/runs/2fjvlini) <br /> [37gx5unf](https://wandb.ai/dl-project2/universal-computation-engine/runs/37gx5unf)
 
 ### Conclusions
 
-// TODO
+* Comparison with baselines:
 
+Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
+:---: | :---: | :---: | :---: | :---: | :---:
+FPT - random (mean) | 97.05% | 57.56% | ... | 75.13% | 9.26%
+FPT - random (best) | 97.32% | 58.54% | ... | 76.52% | 9.41%
+FPT - random | 97.08% | 58.54% | ... | 76.52% | 9.02%
+FPT - pretrained | 98.15% | 63.24% | ... | 75.65% | 8.66%
+Baseline | 99.5% | 73.6% | ... | ... | ... 
 ## Question 4
 
 Can pretrained visual models transfer to different modalities?
@@ -248,7 +252,8 @@ experiments_params = dict(
 )
 ```
 
-2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1). Are they somehow comparable?
+2. Compare the results with the results of [baselines](#Baselines) and the results from [question 1](#Question 1). Are
+   they somehow comparable?
 
 ### Empirical results
 
