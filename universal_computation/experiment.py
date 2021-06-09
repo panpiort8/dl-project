@@ -278,14 +278,14 @@ def experiment(
             
             print(f'Saved model at {t + 1} iters: {run_name}')
             
-        if t - best_test_iter >= early_stop:
-            print(f'No progress since {early_stop} epoch. Early stopping.')
-            print('Loading best model!')
-            state = torch.load(f'models/{run_name}.pt')
-            model.load_state_dict(state['model'])
-            trainer.optim.load_state_dict(state['optim'])
-            
-            break
+        # if t - best_test_iter >= early_stop:
+        #     print(f'No progress since {early_stop} epoch. Early stopping.')
+        #     print('Loading best model!')
+        #     state = torch.load(f'models/{run_name}.pt')
+        #     model.load_state_dict(state['model'])
+        #     trainer.optim.load_state_dict(state['optim'])
+        #
+        #     break
     
     
     return trainer
