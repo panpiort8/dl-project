@@ -1,0 +1,14 @@
+{
+    "name": "cyp3a4-vit",
+
+    "params": {
+        "task": "cyp3a4",
+        "model_name": "ViT-B_16",
+	"batch_size": 16
+    },
+    
+    "args": {
+	"num_iters": 500,
+        "steps_per_iter": 100
+    }
+}

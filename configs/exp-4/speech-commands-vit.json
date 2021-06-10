@@ -1,0 +1,15 @@
+{
+    "name": "speech-commands-vit",
+
+    "params": {
+        "task": "speech-commands",
+        "model_name": "ViT-B_16",
+	"batch_size": 16,
+	"patch_size": 80
+    },
+    
+    "args": {
+	"num_iters": 500,
+        "steps_per_iter": 100
+    }
+}
