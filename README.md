@@ -284,6 +284,8 @@ Speech Command | Accuracy | 1 | 36.16% | NaN | 127,523 | [WandB]()
 
 - ViT also perform quite well as Universal Computation Engine
 
+Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
+:---: | :---: | :---: | :---: | :---: | :---:
 FRT | 97.08% | 58.54% | 7.501* | 76.52% | 9.02%*
 UPT | 60.76% | 21.73% | 7.41* | 61.82% | 3.80%*
 FPT | 98.15% | 63.24% | 7.404* | 75.65% | 8.66%*
