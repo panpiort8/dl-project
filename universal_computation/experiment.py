@@ -17,6 +17,7 @@ def experiment(
         exp_name,
         exp_args,
         early_stop: int = 10,
+        early_stop_step: float = 0.01,
         **kwargs
 ):
     """
@@ -114,7 +115,7 @@ def experiment(
     elif task == 'speech-commands':
         from universal_computation.datasets.speech_commands import SpeechCommandsDataset
         dataset = SpeechCommandsDataset(batch_size=batch_size, sample_rate=8000, device=device)
-        input_dim, output_dim = 8000, 35
+        input_dim, output_dim = patch_size if patch_size else 8000, 35
         use_embeddings = False
         experiment_type = 'classification'
     else:
@@ -127,20 +128,10 @@ def experiment(
         m = torch.nn.Sigmoid()
         
         def loss_fn(out, y, x=None):
-#             print(out.shape, y.shape)
-#             print(type(y))
             return bce(m(out.reshape(-1)), y.reshape(-1).float())
-#             return nll(out.reshape((out.shape[0], out.shape[2])), y)
-#             return mse(out, y)
         
         def accuracy_fn(preds, true, x=None):
             preds = preds.reshape((preds.shape[0], preds.shape[2]))
-#             print(preds)
-#             print(true)
-            
-#             print(true.shape, preds.shape, preds.size, ((preds > 0.0) == (true > 0.5)).sum())
-#             print(((preds > 0.0) == (true > 0.5)).sum() / preds.size)
-#             print("*"*100)
             
             return ((preds > 0.0) == (true > 0.5)).mean()
         
@@ -177,8 +168,6 @@ def experiment(
         def accuracy_fn(preds, true, x=None):
             preds = preds[:, 0].argmax(-1)
             return np.abs(preds - true).mean()
-#             print(preds, true)
-#             return mae_loss(preds, true)
         
     elif experiment_type == 'regression':
         def loss_fn(out, y, x=None):
@@ -188,7 +177,6 @@ def experiment(
         def accuracy_fn(preds, true, x=None):
             preds = preds.reshape((-1, 1))
             return np.abs(preds - true).mean()
-        print("*"*1000)
         
     elif experiment_type == 'classification':
 
@@ -300,7 +288,7 @@ def experiment(
         if log_to_wandb:
             wandb.log(trainer.diagnostics)
 
-        if best_test_loss > trainer.diagnostics['Test Loss']:
+        if best_test_loss > (1 + early_stop_step) * trainer.diagnostics['Test Loss']:
             best_test_loss = trainer.diagnostics['Test Loss']
             best_test_iter = t
             
@@ -311,7 +299,7 @@ def experiment(
             print(f'Saved model at {t + 1} iters: {run_name}')
             
         if t - best_test_iter >= early_stop:
-            print(f'No progress since {early_stop} epoch. Early stopping.')
+            print(f'No enought progress since {early_stop} epoch. Early stopping.')
             print('Loading best model!')
             state = torch.load(f'models/{run_name}.pt')
             model.load_state_dict(state['model'])
