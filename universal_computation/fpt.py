@@ -36,7 +36,7 @@ class Lambda(nn.Module):
 
 def get_vit_transformer(model_name: str, pretrained: bool, max_sequence_len: int = 1024):
     config = CONFIGS[model_name]
-    model = VisionTransformer(config, num_classes=1000, img_size=384)
+    model = VisionTransformer(config, img_size=384)
     if pretrained:
         model.load_from(np.load(f'{model_name}.npz'))
     transformer = nn.Sequential(ViTEmbeddings(config, max_sequence_len), model.transformer.encoder, Lambda())
