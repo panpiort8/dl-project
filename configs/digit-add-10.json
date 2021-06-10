@@ -1,0 +1,14 @@
+{
+    "name": "digit-add-10",
+    "params": {
+        "task": "digit-add",
+        "n": 10,
+        "num_patterns": null,
+	"out_layer_sizes": [50],
+	"learning_rate": 0.001
+    },
+    
+    "args": {
+	"num_iters": 1000
+    }
+}

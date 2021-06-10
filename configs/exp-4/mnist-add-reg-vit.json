@@ -1,0 +1,16 @@
+{
+    "name": "mnist-add-reg-vit",
+
+    "params": {
+        "task": "mnist-add-reg",
+	"model_name": "ViT-B_16",
+        "n": 10,
+        "num_patterns": null,
+        "patch_size": 28
+    },
+    
+    "args": {
+	"num_iters": 500,
+        "steps_per_iter": 100
+    }
+}

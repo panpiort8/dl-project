@@ -1,0 +1,14 @@
+{
+    "name": "mnist-vit",
+
+    "params": {
+        "task": "mnist",
+	"model_name": "ViT-B_16",
+        "patch_size": 4
+    },
+    
+    "args": {
+	"num_iters": 500,
+        "steps_per_iter": 100
+    }
+}

@@ -34,6 +34,8 @@ class Trainer:
         self.diagnostics = {'Gradient Steps': 0}
 
     def get_loss(self, x, y, return_acc=False):
+#         print("*"*100)
+#         print(x)
         out = self.model(x)
         loss = self.loss_fn(out, y, x=x)
         if return_acc:
@@ -53,6 +55,7 @@ class Trainer:
         with torch.no_grad():
             while total < steps:
                 x, y = self.dataset.get_batch(batch_size, train=False)
+                #out = self.model(x)
                 total += y.shape[0]
                 loss, acc = self.get_loss(x, y, return_acc=True)
                 losss.append(loss.detach().cpu().item())

@@ -1,0 +1,25 @@
+{
+    "name": "mnist-add-reg-hidden-unfreeze",
+
+    "params": {
+        "task": "mnist-add-reg",
+        "n": 10,
+        "num_patterns": null,
+        "patch_size": 28,
+	"out_layer_sizes": [100],
+    "pretrained": false,
+    "freeze_trans": false,
+    "freeze_in": false,
+    "freeze_pos": false,
+    "freeze_ln": false,
+    "freeze_attn": false,
+    "freeze_ff": false,
+    "freeze_out": false,
+	"batch_size": 100
+    },
+    
+    "args": {
+	"num_iters": 500,
+        "steps_per_iter": 100
+    }
+}

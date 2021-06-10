@@ -1,0 +1,12 @@
+{
+    "name": "bit-xor-2x5",
+
+    "params": {
+        "task": "bit-xor",
+        "n": 5,
+        "num_patterns": 2,
+        "patch_size": null
+    },
+    
+    "args": {}
+}

@@ -1,0 +1,14 @@
+{
+    "name": "bit-xor-3x10",
+
+    "params": {
+        "task": "bit-xor",
+        "n": 10,
+        "num_patterns": 3,
+        "patch_size": null
+    },
+    
+    "args": {
+	"num_iters": 500
+    }
+}

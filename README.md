@@ -30,8 +30,7 @@ tokens of dimension 16.
 #### MNIST Digits Addition
 
 Model is presented with a sequence of `n` MNIST digits (28x28 pixels) and should predict the sum of them. Task is
-parametrized by a sequence length (for `n=1` it is equivalend to standard MNIST task). Task is taken from
-this [paper](https://arxiv.org/pdf/1808.00508.pdf).
+parametrized by a sequence length (for `n=1` it is equivalend to standard MNIST task). Task is taken from this [paper](https://arxiv.org/pdf/1808.00508.pdf).
 
 #### Speech Commands
 
@@ -49,13 +48,19 @@ body.
 
 #### Baselines
 
-//TODO
+    
+#### TODO:
+    
+- Complete table?
+- lepsze baseliny: https://paperswithcode.com/sota/image-classification-on-cifar-10
+- określanie jaki jakie score powinien osiągać "random"
+
 
 Dataset | Metric Name | Result | #runs
 :---: | :---: | :---: | :---:
 MNIST | Accuracy | 99.5% | ...
 CIFAR 10 | Accuracy | 73.6% | ...
-MNIST Digits Addition | ? | ... | ...
+MNIST Digits Addition (n=10) | Mean Absolute Error | 1.42 (dummy: 7.31) | ...
 Cyp3A4 Inhibition | Accuracy | 82.1% | ...
 Speech Command | Accuracy | 98.1%  | ...
 
@@ -69,7 +74,7 @@ The baseline for this dataset is LSTM, taken from original [paper](https://arxiv
 
 #### MNIST Digits Addition
 
-//TODO what is the baseline? Short description and reference.
+The baseline for this dataset is NAC model from ["Neural Arithmetic Logic Units"](https://arxiv.org/pdf/1808.00508.pdf) paper. It is a model designed for addition / subtraction task, and it perform linear affine tranformation of its input. 
 
 #### Cyp3A4 Inhibition
 
@@ -161,19 +166,26 @@ experiments_params = dict(
 
 ### Empirical results
 
-//TODO Result = average of n runs
 
-Dataset | Metric Name | Result | #runs
-:---: | :---: | :---: | :---:
-MNIST | Accuracy | ... | ...
-CIFAR 10 | Accuracy | ... | ...
-MNIST Digits Addition | ? | ... | ...
-Cyp3A4 Inhibition | Accuracy | ... | ...
-Speech Command | Accuracy | ... | ...
+
+Dataset | Metric Name | # runs | mean | std | weights | Reference
+:---: | :---: | :---: | :---: | :---: | :---: | :---:
+MNIST | Accuracy | 6 | 60.76% | 0.1154 | 124,460,554 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-unfreeze-mnist)
+CIFAR 10 | Accuracy | 3 | 21.73% | 0.0156 | 124,485,130 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/cifar10-unfreeze-cifar10)
+MNIST Digits Addition (Regression, n=10) | Mean Absolute Error | 3 | 7.41 | 0.0316 | 125,043,457 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-add-reg-unfreeze-mnist-add-reg)
+MNIST Digits Addition (Classification, n=10) | Mean Absolute Error | 5 | 6.55 | 0.9497 | 125,112,667 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-add-unfreeze-mnist-add)
+Cyp3A4 Inhibition | Accuracy | 3 | 61.82% | 0.0308 | 125,209,346 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/cyp3a4-unfreeze-cyp3a4)
+Speech Command | Accuracy | 5 | 3.80% | 0.0038 | 130,611,491 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/speech-commands-unfreeze-speech-commands)
 
 ### Conclusions
 
-// TODO
+
+Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
+:---: | :---: | :---: | :---: | :---: | :---:
+FPT (non-pretrained GPT2) | ... | ... | ... | ... | ...
+FPT (pretrained GPT2) | 98.15% | 63.24% | ... | 75.65% | 8.66%
+Baseline | ... | ... | ... | ... | ...
+
 
 ## Question 3
 
@@ -257,16 +269,39 @@ experiments_params = dict(
 
 ### Empirical results
 
-//TODO Result = average of n runs
+Dataset | Metric Name | # runs | mean | std | weights | Reference
+:---: | :---: | :---: | :---: | :---: | :---: | :---:
+MNIST | Accuracy | 3 | 73.59% | 0.0626 | 59,146 | [WandB]()
+CIFAR 10 | Accuracy | 1 | 44.58% | NaN | 83,722 | [WandB]()
+MNIST Digits Addition (Regression, n=10) | Mean Absolute Error | 1 | 7.29 | NaN | 642,049 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-add-reg-unfreeze-mnist-add-reg)
+MNIST Digits Addition (Classification, n=10) | Mean Absolute Error | 2 | 1.79 | 0.3288 | 711,259 | [WandB]()
+Cyp3A4 Inhibition | Accuracy | 3 | 73.87% | 0.0204 | 807,938 | [WandB]()
+Speech Command | Accuracy | 1 | 36.16% | NaN | 127,523 | [WandB]()
 
-Dataset | Metric Name | Result | #runs
-:---: | :---: | :---: | :---:
-MNIST | Accuracy | ... | ...
-CIFAR 10 | Accuracy | ... | ...
-MNIST Digits Addition | ? | ... | ...
-Cyp3A4 Inhibition | Accuracy | ... | ...
-Speech Command | Accuracy | ... | ...
 
 ### Conclusions
 
-// TODO
+- ViT also perform quite well as Universal Computation Engine
+
+
+## Experiment 1
+
+Does pretraining scenario influence FPT accuracy?
+
+### Methodology
+
+1. Multiple pretrained transformers (gpt2 based) has been selected from HuggingFaces with:
+  - different pretraining languges: `uer/gpt2-chinese-poem`, `LorenzoDeMattei/GePpeTto`, `rinna/japanese-gpt2-medium`, ...
+  - different model size (embeddings size, number of attention heads): `tiny-gpt2`, `gpt2`, `gpt2-medium`, `gpt2-large`, ...
+  - different kinds of specialities: `magic-the-gathering`, `gpt2-chess-uci`, `CodeGPT-small-py`, ...
+
+2. Selected models has been pretrained and tested on various tasks
+
+### Empirical results
+
+> Take a look at `experiments/Results.ipynb` notebook
+
+### Conclusion
+
+- Number of trained weights is correlated with overall model score
+- Additional pretraining on special domain may additionaly increase model performance

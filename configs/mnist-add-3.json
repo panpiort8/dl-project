@@ -1,0 +1,11 @@
+{
+    "name": "mnist-add-3",
+    "params": {
+        "task": "mnist-add",
+        "n": 3,
+        "num_patterns": null,
+        "patch_size": 28
+    },
+    
+    "args": {}
+}
