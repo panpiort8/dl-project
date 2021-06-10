@@ -1,0 +1,23 @@
+{
+    "name": "speech-commands-unfreeze",
+
+    "params": {
+        "task": "speech-commands",
+	"patch_size": 80,
+    "pretrained": false,
+    "freeze_trans": false,
+    "freeze_in": false,
+    "freeze_pos": false,
+    "freeze_ln": false,
+    "freeze_attn": false,
+    "freeze_ff": false,
+    "freeze_out": false,
+
+	"batch_size": 16
+    },
+    
+    "args": {
+	"num_iters": 500,
+        "steps_per_iter": 100
+    }
+}
