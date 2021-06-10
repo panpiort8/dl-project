@@ -55,10 +55,7 @@ class Trainer:
         with torch.no_grad():
             while total < steps:
                 x, y = self.dataset.get_batch(batch_size, train=False)
-                out = self.model(x)
-                print("v"*100)
-                print(x.shape, y.shape, y, out)
-                print("^"*100)
+                #out = self.model(x)
                 total += y.shape[0]
                 loss, acc = self.get_loss(x, y, return_acc=True)
                 losss.append(loss.detach().cpu().item())

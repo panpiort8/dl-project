@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
@@ -21,8 +21,8 @@ DEFAULT_PARAMS = {
     "freeze_ff": True,
     "freeze_out": False,
 
-    "in_layer_size": None,
-    "out_layer_size": None,
+    "in_layer_sizes": None,
+    "out_layer_sizes": None,
 
     "learning_rate": 0.001,
     "batch_size": 25,
