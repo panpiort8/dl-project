@@ -221,11 +221,11 @@ Speech Command | Accuracy | 9.06% <br /> 9.3% <br /> 9.41% | 3 | 400 <br /> 365 
 
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
-FPT - random (mean) | 97.05% | 57.56% | ... | 75.13% | 9.26%
-FPT - random (best) | 97.32% | 58.54% | ... | 76.52% | 9.41%
-FPT - random | 97.08% | 58.54% | ... | 76.52% | 9.02%
-FPT - pretrained | 98.15% | 63.24% | ... | 75.65% | 8.66%
-Baseline | 99.5% | 73.6% | ... | ... | ... 
+FPT - random (mean) | 97.05% | 57.56% | 7.578 | 75.13% | 9.26%
+FPT - random (best) | 97.32% | 58.54% | 7.501 | 76.52% | 9.41%
+FPT - random | 97.08% | 58.54% | 7.501 | 76.52% | 9.02%
+FPT - pretrained | 98.15% | 63.24% | 7.404 | 75.65% | 8.66%
+Baseline | 99.5% | 73.6% | ... | 82.1% | 98.1% 
 ## Question 4
 
 Can pretrained visual models transfer to different modalities?
