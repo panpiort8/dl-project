@@ -299,7 +299,7 @@ Does pretraining scenario influence FPT accuracy?
 
 ### Empirical results
 
-> Take a look at `experiments/results.ipynb` notebook
+> Take a look at `experiments/Results.ipynb` notebook
 
 ### Conclusion
 
