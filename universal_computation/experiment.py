@@ -108,8 +108,8 @@ def experiment(
 
     elif task == 'speech-commands':
         from universal_computation.datasets.speech_commands import SpeechCommandsDataset
-        dataset = SpeechCommandsDataset(batch_size=batch_size, sample_rate=8000, device=device)
-        input_dim, output_dim = 80, 35
+        dataset = SpeechCommandsDataset(batch_size=batch_size, patch_size=patch_size, sample_rate=8000, device=device)
+        input_dim, output_dim = patch_size, 35
         use_embeddings = False
         experiment_type = 'classification'
     else:
