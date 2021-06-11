@@ -171,11 +171,11 @@ def experiment(
         
     elif experiment_type == 'regression':
         def loss_fn(out, y, x=None):
-            out = out.reshape((-1, 1))
+            out = out.reshape((-1,))
             return ((out - y)**2).mean()
 
         def accuracy_fn(preds, true, x=None):
-            preds = preds.reshape((-1, 1))
+            preds = preds.reshape((-1,))
             return np.abs(preds - true).mean()
         
     elif experiment_type == 'classification':
