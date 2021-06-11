@@ -307,7 +307,46 @@ Does pretraining scenario influence FPT accuracy?
 
 ### Empirical results
 
-> Take a look at `experiments/Results.ipynb` notebook
+> For full results take a look at `experiments/Results.ipynb` notebook
+
+#### Task: MNIST 
+
+pretrained model | mean accuracy | # trainable weights
+:---: | :---: | :---:
+ceostroff/harry-potter-gpt2-fanfiction | 96.28% | 59,146
+*gpt2* | 95.94% | 59,146
+sberbank-ai/rugpt3small_based_on_gpt2 |95.37% | 59,146
+... | ... | ...
+shtoshni/gpt2-chess-uci | 90.11% | 59,146
+minimaxir/magic-the-gathering | 69.79% | 7,818
+sshleifer/tiny-gpt2 | 14.74% | 84
+
+#### Task: MNIST Digits Addition (N=10)
+
+pretrained model | mean MAE | # trainable weights
+:---: | :---: | :---:
+ceostroff/harry-potter-gpt2-fanfiction | 1.7950 | 14,97,691
+chrisliu298/arxiv_ai_gpt2 | 1.9036 | 1,308,251
+distilgpt2 | 1.9068 | 1,479,259
+gpt2 | 2.0455 | 1,497,691
+... | ... | ...
+minimaxir/magic-the-gathering |	3.2861 | 149,339
+shtoshni/gpt2-chess-uci | 3.4264 | 1,104,475
+sshleifer/tiny-gpt2 | 7.4578 | 3,911
+
+
+#### Task: Bit-XOR (N=10)
+
+pretrained model | mean accuracy | # trainable weights
+:---: | :---: | :---:
+gpt2 | 72.51% | 62,228
+sberbank-ai/rugpt3small_based_on_gpt2 | 66.70% | 62,228
+microsoft/CodeGPT-small-py | 66.70% | 62,228
+... | ... | ...
+gpt2-large | 49.93% | 226,580
+microsoft/DialoGPT-medium | 49.79% | 132116
+chrisliu298/arxiv_ai_gpt2 | 49.76% | 226,580
+
 
 ### Conclusion
 
