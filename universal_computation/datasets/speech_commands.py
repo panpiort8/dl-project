@@ -14,6 +14,7 @@ class SpeechCommandsDataset(Dataset):
 
         self.batch_size = batch_size  # we fix it so we can use dataloader
         self.patch_size = patch_size
+        self.sample_rate = sample_rate
 
         self.transform = torchaudio.transforms.Resample(orig_freq=16000, new_freq=sample_rate)
 
@@ -44,8 +45,7 @@ class SpeechCommandsDataset(Dataset):
 
         x = self.transform(x)
 
-        if self.patch_size is not None:
-            x = rearrange(x, 'b c (h p1) (w p2) -> b (h w) (p1 p2 c)', p1=self.patch_size, p2=1)
+        x = x.reshape(self.batch_size, self.sample_rate//self.patch_size, self.patch_size)
 
         x = x.to(device=self.device)
         y = y.to(device=self.device)
