@@ -124,7 +124,7 @@ MNIST | Accuracy | 98.15% | 1 | 250 | steps_per_iter=200 <br /> test_steps_per_i
 CIFAR10 | Accuracy | 63.24% | 1 | 550 | steps_per_iter=200 <br /> test_steps_per_iter=100  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4 | [3qo22alh](https://wandb.ai/dl-project2/universal-computation-engine/runs/3qo22alh)
 MNIST Digits Addition | MSE | 7.404 | 1 | 200 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=28 <br /> n=10 | [2mfojag2](https://wandb.ai/dl-project2/universal-computation-engine/runs/2mfojag2)
 Cyp3A4 Inhibition | Accuracy | 75.65% | 1 | 280 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 | [3kzurs4w](https://wandb.ai/dl-project2/universal-computation-engine/runs/3kzurs4w)
-Speech Command | Accuracy | 8.66% | 1 | 380 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-4  <br /> batch_size=16 | [1roigxzp](https://wandb.ai/dl-project2/universal-computation-engine/runs/1roigxzp)
+Speech Command | Accuracy | 64.97% | 1 | 500 | steps_per_iter=200 <br /> test_steps_per_iter=25  <br /> learning_rate=1e-4  <br /> batch_size=16 <br /> patch_size=80 | [3mi762gc](https://wandb.ai/dl-project2/universal-computation-engine/runs/3mi762gc)
 
 ### Conclusions
 
@@ -133,7 +133,7 @@ Speech Command | Accuracy | 8.66% | 1 | 380 | steps_per_iter=200 <br /> test_ste
 
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
-FPT | 98.15% | 63.24% | 7.404* | 75.65% | 8.66%*
+FPT | 98.15% | 63.24% | 7.404* | 75.65% | 64.97%
 Baseline | 99.5% | 99.5% | 1.42 | 82.1% | 98.1%
 
 ## Question 2
@@ -175,15 +175,15 @@ CIFAR 10 | Accuracy | 3 | 21.73% | 0.0156 | 124,485,130 | [WandB](https://wandb.
 MNIST Digits Addition (Regression, n=10) | Mean Absolute Error | 3 | 7.41 | 0.0316 | 125,043,457 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-add-reg-unfreeze-mnist-add-reg)
 MNIST Digits Addition (Classification, n=10) | Mean Absolute Error | 5 | 6.55 | 0.9497 | 125,112,667 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-add-unfreeze-mnist-add)
 Cyp3A4 Inhibition | Accuracy | 3 | 61.82% | 0.0308 | 125,209,346 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/cyp3a4-unfreeze-cyp3a4)
-Speech Command | Accuracy | 5 | 3.80% | 0.0038 | 130,611,491 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/speech-commands-unfreeze-speech-commands)
+Speech Command | Accuracy | 1 | 63.56% | - | 124,528,931 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/runs/1fao2s4o)
 
 ### Conclusions
 
 
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
-UPT | 60.76% | 21.73% | 7.41* | 61.82% | 3.80%*
-FPT | 98.15% | 63.24% | 7.404* | 75.65% | 8.66%*
+UPT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
+FPT | 98.15% | 63.24% | 7.404* | 75.65% | 64.97%
 Baseline | 99.5% | 99.5% | 1.42 | 82.1% | 98.1%
 
 
@@ -225,7 +225,7 @@ MNIST | Accuracy | 97.32% <br /> 97.08% <br /> 96.76% | 3 | 350 <br /> 250 <br /
 CIFAR 10 | Accuracy | 56.06% <br /> 58.54% <br /> 58.08% | 3 | 375 <br /> 550 <br /> 520 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=4 | [2i50a27d](https://wandb.ai/dl-project2/universal-computation-engine/runs/2i50a27d) <br /> [1t4rqtyu](https://wandb.ai/dl-project2/universal-computation-engine/runs/1t4rqtyu) <br /> [2h7i4yza](https://wandb.ai/dl-project2/universal-computation-engine/runs/2h7i4yza)
 MNIST Digits Addition | MSE | 7.543 <br /> 7.501 <br /> 7.69 | 3 | 150 <br /> 200 <br /> 90 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 <br /> patch_size=28 <br /> n=10 | [1dj9wo3f](https://wandb.ai/dl-project2/universal-computation-engine/runs/1dj9wo3f) <br /> [1drqzu9o](https://wandb.ai/dl-project2/universal-computation-engine/runs/1drqzu9o) <br /> [1x5p2yog](https://wandb.ai/dl-project2/universal-computation-engine/runs/1x5p2yog)
 Cyp3A4 Inhibition | Accuracy | 73.08% <br /> 75.8% <br /> 76.52% | 3 | 50 <br /> 75 <br /> 280 |steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-3  <br /> batch_size=16 | [fitarqv4](https://wandb.ai/dl-project2/universal-computation-engine/runs/fitarqv4) <br /> [3cnuxa09](https://wandb.ai/dl-project2/universal-computation-engine/runs/3cnuxa09) <br /> [3d155atc](https://wandb.ai/dl-project2/universal-computation-engine/runs/3d155atc)
-Speech Command | Accuracy | 9.06% <br /> 9.3% <br /> 9.41% | 3 | 400 <br /> 365 <br /> 350 | steps_per_iter=200 <br /> test_steps_per_iter=50  <br /> learning_rate=1e-4  <br /> batch_size=16 | [2ydixs9a](https://wandb.ai/dl-project2/universal-computation-engine/runs/2ydixs9a) <br /> [2fjvlini](https://wandb.ai/dl-project2/universal-computation-engine/runs/2fjvlini) <br /> [37gx5unf](https://wandb.ai/dl-project2/universal-computation-engine/runs/37gx5unf)
+Speech Command | Accuracy | 32.87% <br /> 24.94% <br /> 37.44% | 3 | 240 <br /> 120 <br /> 350 | steps_per_iter=200 <br /> test_steps_per_iter=25  <br /> learning_rate=1e-4  <br /> batch_size=16 <br /> patch_size=80| [1abgqjcm](https://wandb.ai/dl-project2/universal-computation-engine/runs/1abgqjcm) <br /> [2e3sow6q](https://wandb.ai/dl-project2/universal-computation-engine/runs/2e3sow6q) <br /> [voonklgk](https://wandb.ai/dl-project2/universal-computation-engine/runs/voonklgk)
 
 ### Conclusions
 
@@ -233,11 +233,10 @@ Speech Command | Accuracy | 9.06% <br /> 9.3% <br /> 9.41% | 3 | 400 <br /> 365 
 
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
-FRT (mean) | 97.05% | 57.56% | 7.578 | 75.13% | 9.26%
-FRT (best) | 97.32% | 58.54% | 7.501 | 76.52% | 9.41%
-FRT | 97.08% | 58.54% | 7.501* | 76.52% | 9.02%*
-UPT | 60.76% | 21.73% | 7.41* | 61.82% | 3.80%*
-FPT | 98.15% | 63.24% | 7.404* | 75.65% | 8.66%*
+FRT (mean) | 97.05% | 57.56% | 7.578 | 75.13% | 31.75%
+FRT (best) | 97.32% | 58.54% | 7.501 | 76.52% | 37.44%
+UPT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
+FPT | 98.15% | 63.24% | 7.404* | 75.65% | 64.97%
 Baseline | 99.5% | 99.5% | 1.42 | 82.1% | 98.1%
 ## Question 4
 
@@ -286,9 +285,9 @@ Speech Command | Accuracy | 1 | 36.16% | NaN | 127,523 | [WandB]()
 
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
-FRT | 97.08% | 58.54% | 7.501* | 76.52% | 9.02%*
-UPT | 60.76% | 21.73% | 7.41* | 61.82% | 3.80%*
-FPT | 98.15% | 63.24% | 7.404* | 75.65% | 8.66%*
+FRT | 97.08% | 58.54% | 7.501* | 76.52% | 37.44%
+UPT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
+FPT | 98.15% | 63.24% | 7.404* | 75.65% | 64.97%
 V-FPT | 73.59% | 44.58% | 7.29* | 73.87% | 36.16%
 Baseline | 99.5% | 99.5% | 1.42 | 82.1% | 98.1%
 
