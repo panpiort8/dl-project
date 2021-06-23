@@ -142,7 +142,7 @@ What is the importance of the pretraining modality?
 
 ### Methodology
 
-1. Train Unfrozen Pretrained Transformer (UPT) on all datasets without the pretraining and freezing:
+1. Train Unfrozen Random Transformer (URT) on all datasets without the pretraining and freezing:
 
 ```python
 experiments_params = dict(
@@ -182,7 +182,7 @@ Speech Command | Accuracy | 2 | 62.52% | - | 124,528,931 | [WandB](https://wandb
 
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
-UPT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
+URT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
 FPT | 98.15% | 63.24% | 7.404* | 75.65% | 64.97%
 Baseline | 99.5% | 99.5% | 1.42 | 82.1% | 98.1%
 
@@ -235,7 +235,7 @@ Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Com
 :---: | :---: | :---: | :---: | :---: | :---:
 FRT (mean) | 97.05% | 57.56% | 7.578 | 75.13% | 31.75%
 FRT (best) | 97.32% | 58.54% | 7.501 | 76.52% | 37.44%
-UPT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
+URT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
 FPT | 98.15% | 63.24% | 7.404* | 75.65% | 64.97%
 Baseline | 99.5% | 99.5% | 1.42 | 82.1% | 98.1%
 ## Question 4
@@ -286,7 +286,7 @@ Speech Command | Accuracy | 1 | 36.16% | NaN | 127,523 | [WandB]()
 Model | MNIST | CIFAR10 | MNIST Digits Addition | Cyp3A4 Inhibition | Speech Command
 :---: | :---: | :---: | :---: | :---: | :---:
 FRT | 97.08% | 58.54% | 7.501* | 76.52% | 37.44%
-UPT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
+URT | 60.76% | 21.73% | 7.41* | 61.82% | 63.56%
 FPT | 98.15% | 63.24% | 7.404* | 75.65% | 64.97%
 V-FPT | 73.59% | 44.58% | 7.29* | 73.87% | 36.16%
 Baseline | 99.5% | 99.5% | 1.42 | 82.1% | 98.1%
