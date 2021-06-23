@@ -175,7 +175,7 @@ CIFAR 10 | Accuracy | 3 | 21.73% | 0.0156 | 124,485,130 | [WandB](https://wandb.
 MNIST Digits Addition (Regression, n=10) | Mean Absolute Error | 3 | 7.41 | 0.0316 | 125,043,457 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-add-reg-unfreeze-mnist-add-reg)
 MNIST Digits Addition (Classification, n=10) | Mean Absolute Error | 5 | 6.55 | 0.9497 | 125,112,667 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/mnist-add-unfreeze-mnist-add)
 Cyp3A4 Inhibition | Accuracy | 3 | 61.82% | 0.0308 | 125,209,346 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/groups/cyp3a4-unfreeze-cyp3a4)
-Speech Command | Accuracy | 1 | 63.56% | - | 124,528,931 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/runs/1fao2s4o)
+Speech Command | Accuracy | 2 | 62.52% | - | 124,528,931 | [WandB](https://wandb.ai/dl-project2/universal-computation-engine/runs/1fao2s4o)
 
 ### Conclusions
 
